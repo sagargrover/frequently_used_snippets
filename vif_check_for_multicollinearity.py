@@ -1,4 +1,6 @@
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.preprocessing import Imputer
 
 class ReduceVIF(BaseEstimator, TransformerMixin):
     def __init__(self, thresh=5.0, impute=True, impute_strategy='median'):
@@ -44,7 +46,7 @@ class ReduceVIF(BaseEstimator, TransformerMixin):
             max_vif = max(vif)
             if max_vif > thresh:
                 maxloc = vif.index(max_vif)
-                print(f'Dropping {X.columns[maxloc]} with vif={max_vif}')
+                print 'Dropping {} with vif={}'.format(X.columns[maxloc], max_vif)
                 X = X.drop([X.columns.tolist()[maxloc]], axis=1)
                 dropped=True
         return X
